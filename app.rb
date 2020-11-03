@@ -1,7 +1,7 @@
 require 'sinatra/base'
-require_relative 'lib/bookmarks'
+require_relative 'lib/bookmark_manager'
 
-class Bookmark_Manager < Sinatra::Base
+class Bookmark_App < Sinatra::Base
   enable :sessions
 
   get '/' do
@@ -14,10 +14,18 @@ class Bookmark_Manager < Sinatra::Base
   end
 
   get '/bookmarks' do
-    p ENV
     @name = session[:name]
-    @bookmarks = Bookmarks.all
+    @bookmarks = Bookmark_Manager.all
     erb :bookmarks
+  end
+
+  post '/new' do
+    Bookmark_Manager.add(params[:title], params[:url])
+    redirect '/bookmarks'
+  end
+
+  get '/bookmarks/new' do
+    erb :new
   end
 
   run! if app_file == $0

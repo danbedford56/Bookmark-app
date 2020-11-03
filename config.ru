@@ -1,2 +1,2 @@
 require_relative 'app'
-run Bookmark_Manager
+run Bookmark_App
