@@ -13,14 +13,19 @@ class Bookmark_Manager
 
   def self.add(title, link)
     connection = self.connect_to_db
-    connection.exec("INSERT INTO bookmarks (title, url) VALUES ('#{title}', '#{link}') RETURNING id, url, title;")
+    result = connection.exec("INSERT INTO bookmarks (title, url) VALUES ('#{title}', '#{link}') RETURNING id, url, title;")
+    Bookmark.new(result[0]['id'], title, link)
+  end
+
+  def self.delete(id)
+    connection = self.connect_to_db
+    connection.exec("DELETE FROM bookmarks WHERE id = '#{id}';")
     true
   end
 
-  def self.delete(link)
+  def self.update(id:, title:, url:)
     connection = self.connect_to_db
-    connection.exec("DELETE FROM bookmarks WHERE url = '#{link}';")
-    true
+    connection.exec("UPDATE bookmarks SET url = '#{url}', title = '#{title}' WHERE id = #{id} RETURNING id, url, title;")
   end
 
   private

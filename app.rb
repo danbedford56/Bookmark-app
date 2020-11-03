@@ -2,7 +2,7 @@ require 'sinatra/base'
 require_relative 'lib/bookmark_manager'
 
 class Bookmark_App < Sinatra::Base
-  enable :sessions
+  enable :sessions, :method_override
 
   get '/' do
     erb :index
@@ -26,6 +26,22 @@ class Bookmark_App < Sinatra::Base
 
   get '/bookmarks/new' do
     erb :new
+  end
+
+  delete '/bookmarks/:id' do
+    Bookmark_Manager.delete(params['id'])
+    redirect '/bookmarks'
+  end
+
+  get '/bookmarks/:id/edit' do
+    @bookmark_id = params[:id]
+    erb :edit
+  end
+
+  patch '/bookmarks/:id' do
+    Bookmark_Manager.update(id: params[:id], title: params[:title], url: params[:url])
+
+    redirect '/bookmarks'
   end
 
   run! if app_file == $0

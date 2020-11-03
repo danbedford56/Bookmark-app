@@ -1,10 +1,19 @@
-Welcome <%=@name%>
+<link rel="stylesheet" style="text/css" href="/css/bookmark_page.css">
+<h1> Welcome <%=@name%> </h1>
 <br>
 <ul>
   <% @bookmarks.each do |bookmark| %>
-    <li>
+    <li class="bookmark" id="book-<%= bookmark.id %>">
       <a href="<%= bookmark.url %>">
         <%= bookmark.title %>
+        <br>
+        <form action="/bookmarks/<%= bookmark.id %>" method="post">
+          <input type='hidden' name='_method' value='DELETE'/>
+          <input type="submit" value="Delete" />
+        </form>
+        <form action="/bookmarks/<%= bookmark.id %>/edit" method="get">
+          <input type="submit" value="Edit" />
+        </form>
       </a>
     </li>
   <% end %>
