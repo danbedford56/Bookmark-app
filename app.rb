@@ -65,5 +65,15 @@ class Bookmark_App < Sinatra::Base
     redirect '/bookmarks'
   end
 
+  get '/bookmarks/:id/tag/new' do
+    @bookmark_id = params[:id]
+    erb :tag
+  end
+
+  post '/bookmarks/:id/tag/new' do
+    Tag.create(somestuff)
+    redirect '/bookmarks'
+  end
+
   run! if app_file == $0
 end

@@ -17,6 +17,9 @@
         <form action="/bookmarks/<%= bookmark.id %>/comments/new" method="get">
           <input type="submit" value="Add comment" />
         </form>
+        <form action="/bookmarks/<%= bookmark.id %>/tag/new" method="get" >
+          <input type = "submit" value ="Add tag">
+        </form>
         <ul>
           <% bookmark.comments.each do |comment| %>
             <li><%= comment.text %></li>
