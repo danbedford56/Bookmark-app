@@ -1,3 +1,4 @@
+require_relative 'database_connection'
 class Bookmark
 
   attr_reader :id, :title, :url
@@ -6,6 +7,10 @@ class Bookmark
     @id = id
     @title = title
     @url = url
+  end
+
+  def comments(comment_class = Comment)
+    comment_class.where(bookmark_id: id)
   end
 
 end

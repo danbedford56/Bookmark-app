@@ -23,5 +23,23 @@ RSpec.describe Bookmark_Manager do
     end
   end
 
+  let(:comment_class) { double(:comment_class) }
+
+  describe 'comments' do
+    it 'Returns a list of comments for the specified bookmark' do
+      bookmark = Bookmark_Manager.add('Test', "http://www.test.com")
+      DatabaseConnection.query("INSERT INTO comments (id, text, bookmark_id) VALUES(1, 'Test comment', #{bookmark.id})")
+
+      comment = bookmark.comments.first
+      expect(comment.text).to eq 'Test comment'
+    end
+
+    it 'calls .where on the Comment class' do
+      bookmark = Bookmark_Manager.add("Test link", "http://www.test.com")
+      expect(comment_class).to receive(:where).with(bookmark_id: bookmark.id)
+
+      bookmark.comments(comment_class)
+    end
+  end
   
 end
