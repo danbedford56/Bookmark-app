@@ -25,6 +25,13 @@ class Bookmark_Manager
     DatabaseConnection.query("UPDATE bookmarks SET url = '#{url}', title = '#{title}' WHERE id = #{id} RETURNING id, url, title;")
   end
 
+  def self.where(tag_id:)
+    result = DatabaseConnection.query("SELECT id, url, title FROM bookmark_tags INNER JOIN bookmarks ON bookmarks.id = bookmarks_tag.bookmark_id WHERE bookmark_tags.tag_id = '#{tag_id}';")
+    result.map do |bookmark|
+      Bookmark.new(bookmark['id'], bookmark['title'], bookmark['url'])
+    end
+  end
+
   def comments(comment_class = Comment)
     comment_class.where(bookmark_id: id)
   end

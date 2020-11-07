@@ -4,6 +4,8 @@ require 'uri'
 require_relative 'lib/bookmark_manager'
 require_relative 'lib/database_connection'
 require_relative 'lib/database_connection_setup'
+require_relative 'lib/tag'
+require_relative 'lib/bookmark_tag'
 
 class Bookmark_App < Sinatra::Base
   enable :sessions, :method_override
@@ -71,7 +73,8 @@ class Bookmark_App < Sinatra::Base
   end
 
   post '/bookmarks/:id/tag/new' do
-    Tag.create(somestuff)
+    tag = Tag.create(content: params[:tag])
+    BookmarkTag.create(bookmark_id: params[:id], tag_id: tag.id)
     redirect '/bookmarks'
   end
 

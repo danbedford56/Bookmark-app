@@ -20,6 +20,13 @@
         <form action="/bookmarks/<%= bookmark.id %>/tag/new" method="get" >
           <input type = "submit" value ="Add tag">
         </form>
+        <p>Tags:</p>
+        <ul>
+          <% bookmark.tags.each do |tag| %>
+            <li><%= tag.content %></li>
+          <% end %>
+        </ul>
+        <p>Comments:</p>
         <ul>
           <% bookmark.comments.each do |comment| %>
             <li><%= comment.text %></li>

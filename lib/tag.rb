@@ -14,13 +14,13 @@ class Tag
             result = DatabaseConnection.query("INSERT INTO tags (content) VALUES ('#{content}') RETURNING id, content;").first
         end
         Tag.new(
-            id: result[0]['id'],
-            content: result[0]['content'],
+            id: result['id'],
+            content: result['content'],
         )
     end
 
     def self.where(bookmark_id:)
-        result = DatabaseConnection.query("SELECT id, content FROM bookmark_tags INNER JOIN tags ON tags.id = bookmark_tags.tag_id WHERE bookmark_tags.bookmark.id = '#{bookmark_id}';")
+        result = DatabaseConnection.query("SELECT id, content FROM bookmark_tags INNER JOIN tags ON tags.id = bookmark_tags.tag_id WHERE bookmark_tags.bookmark_id = '#{bookmark_id}';")
         result.map do |tag|
             Tag.new(
                 id: tag['id'],
